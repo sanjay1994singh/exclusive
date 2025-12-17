@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Samachar 24 | News Network{% endblock %}</title>
+    <title>{% block title %}Exclusive Bulletin | News Network{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
@@ -70,17 +70,16 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg">
     <div class="container">
-        <a class="navbar-brand" href="#">Samachar24</a>
+        <a class="navbar-brand" href="#">Exclusive Bulletin</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navMenu">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Politics</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Business</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Sports</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">E‑Paper</a></li>
+                {% for i in category %}
+                <li class="nav-item"><a href="/category_news/{{i.id}}/" class="nav-link" href="#">{{i.name}}</a></li>
+                {% endfor %}
+
                 <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
             </ul>
         </div>
@@ -104,7 +103,7 @@
 <!-- Footer -->
 <footer class="mt-5">
     <div class="container text-center">
-        <p>© 2025 Samachar 24 News Network. All Rights Reserved.</p>
+        <p>© 2025 Exclusive Bulletin News Network. All Rights Reserved.</p>
         <p>
             <a href="#">Facebook</a> |
             <a href="#">Twitter</a> |
