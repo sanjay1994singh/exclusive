@@ -29,7 +29,6 @@ def news_detail(request, id):
         absolute_image_url = request.build_absolute_uri(news.featured_image.url)
     except:
         absolute_image_url = ''
-    print(absolute_image_url, '=============absolute_image_url')
     category = Category.objects.all().order_by('-id')
     context = {
         'news': news,
@@ -37,15 +36,3 @@ def news_detail(request, id):
         'category': category,
     }
     return render(request, 'detail.html', context)
-
-
-def about(request):
-    return render(request, 'about.html')
-
-
-def contact(request):
-    return render(request, 'contact.html')
-
-
-def search(request):
-    return render(request, 'search.html')
