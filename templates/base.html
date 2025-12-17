@@ -54,7 +54,58 @@
         }
         footer a { color: #fff; text-decoration: none; }
     </style>
+    <style>
+        .breaking-news {
+            position: sticky;   /* Stick to top */
+            top: 0;
+            width: 100%;
+            background-color: #000000;  /* Black background */
+            color: white;
+            font-weight: bold;
+            z-index: 9999;
+            padding: 10px 0;
+            overflow: hidden;
+        }
 
+
+    .breaking-label {
+        display: inline-block;
+        margin-right: 20px;
+    }
+
+    .news-scroll {
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .news-items {
+        display: inline-block;
+        padding-left: 100%; /* start outside the view */
+        animation: scroll-news 20s linear infinite;
+    }
+
+    .news-items a {
+        color: white;
+        text-decoration: none;
+        margin-right: 15px;
+    }
+
+    .news-items .separator {
+        margin-right: 15px;
+    }
+
+    @keyframes scroll-news {
+        0% {
+            transform: translateX(0%);
+        }
+        100% {
+            transform: translateX(-100%);
+        }
+    }
+
+    </style>
 
     {% block css %}{% endblock %}
 </head>
@@ -87,12 +138,18 @@
 </nav>
 
 
-<!-- Breaking News -->
+<!-- Breaking news bar -->
 <div class="breaking-news">
-    <div class="container">
-        <marquee behavior="scroll" direction="left">
-            <span>BREAKING</span> Election updates | Market hits new high | Big sports victory | Weather alert issued
-        </marquee>
+    <div class="container news-scroll">
+        <span class="breaking-label">BREAKING</span>
+        <div class="news-items">
+            {% for news_item in breaking_news %}
+            <a href="{% url 'news_detail' news_item.id %}">{{ news_item.title }}</a>
+            <span class="separator">|</span>
+            {% empty %}
+            No breaking news at the moment.
+            {% endfor %}
+        </div>
     </div>
 </div>
 
