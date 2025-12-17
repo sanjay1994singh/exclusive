@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Samachar 24 | News Network{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+
+    <style>
+        body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f4f6f9;
+        }
+        .top-bar {
+        background: #b80000;
+        color: #fff;
+        font-size: 14px;
+        }
+        .navbar {
+        background: #ffffff;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .navbar-brand {
+        font-weight: 700;
+        color: #b80000 !important;
+        }
+        .breaking-news {
+        background: #111;
+        color: #fff;
+        padding: 8px 0;
+        }
+        .breaking-news span {
+        background: #b80000;
+        padding: 5px 10px;
+        margin-right: 10px;
+        font-weight: 600;
+        }
+        footer {
+        background: #111;
+        color: #ccc;
+        padding: 30px 0;
+        }
+        footer a { color: #fff; text-decoration: none; }
+    </style>
+
+
+    {% block css %}{% endblock %}
+</head>
+<body>
+
+
+<!-- Top Bar -->
+<div class="top-bar py-1 text-center">
+    Latest Updates | Trusted News Network
+</div>
+
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand" href="#">Samachar24</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Politics</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Business</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Sports</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">E‑Paper</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<!-- Breaking News -->
+<div class="breaking-news">
+    <div class="container">
+        <marquee behavior="scroll" direction="left">
+            <span>BREAKING</span> Election updates | Market hits new high | Big sports victory | Weather alert issued
+        </marquee>
+    </div>
+</div>
+
+
+{% block content %}{% endblock %}
+
+
+<!-- Footer -->
+<footer class="mt-5">
+    <div class="container text-center">
+        <p>© 2025 Samachar 24 News Network. All Rights Reserved.</p>
+        <p>
+            <a href="#">Facebook</a> |
+            <a href="#">Twitter</a> |
+            <a href="#">YouTube</a>
+        </p>
+    </div>
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

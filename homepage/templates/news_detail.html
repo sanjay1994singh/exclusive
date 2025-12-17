@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+
+{% block title %}{{ news.title }}{% endblock %}
+
+
+{% block metatags %}
+<meta property="og:title" content="{{ news.title }}">
+<meta property="og:image" content="{{ news.featured_image.url }}">
+<meta property="og:description" content="{{ news.summary }}">
+{% endblock %}
+
+
+{% block content %}
+<h1>{{ news.title }}</h1>
+<p class="text-muted">{{ news.created_at|date:"d M Y" }}</p>
+<img src="{{ news.featured_image.url }}" class="img-fluid mb-3">
+<div>{{ news.content|safe }}</div>
+{% endblock %}
