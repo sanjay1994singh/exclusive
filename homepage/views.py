@@ -36,3 +36,15 @@ def news_detail(request, id):
         'category': category,
     }
     return render(request, 'detail.html', context)
+
+
+def category_news(request, id):
+    category_name = Category.objects.get(id=id)
+    all_news = News.objects.filter(category_id=id).order_by('-id')[:30]
+
+
+    context = {
+        'news': all_news,
+        'category_name': category_name,
+    }
+    return render(request, 'category_news.html', context)

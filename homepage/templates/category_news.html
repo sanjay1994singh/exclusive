@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+{{category_name}} - Exclusive Bulletin
+{% endblock title %}
+
+
+{% block css %}
+{% endblock css %}
+
+{% block content %}
+<section class="container mt-5">
+    <h3 class="section-title mb-4">{{ category.name }}</h3>
+    <div class="row">
+        {% for news_item in news %}
+        <a href="/news-detail/{{news_item.id}}/" style="color: inherit; text-decoration: none;">
+            <div class="col-md-4 mb-4">
+                <div class="card news-card h-100">
+                    {% if news_item.featured_image %}
+                    <img src="{{ news_item.featured_image.url }}" class="card-img-top" alt="{{ news_item.title }}">
+                    {% else %}
+                    <img src="https://placehold.co/600x400?text=No+News+Image" class="card-img-top" alt="Demo News">
+                    {% endif %}
+
+                    <div class="card-body">
+                        <h5 class="card-title"><strong>{{ news_item.title }}</strong></h5>
+                        <p class="card-text">{{ news_item.text|truncatewords:20 }}</p>
+                    </div>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    <hr>
+</section>
+
+{% endblock content %}
+
+{% block js %}
+{% endblock js %}
+
+
+
+
+
