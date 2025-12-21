@@ -9,11 +9,20 @@ from django.db.models import Max
 #         'category': Category.objects.all().order_by('-id')
 #     }
 
+# def category_context(request):
+#     return {
+#         'categories': Category.objects.annotate(
+#             latest_news=Max('news__created_at')
+#         ).order_by('-latest_news')
+#     }
+
 def category_context(request):
     return {
-        'categories': Category.objects.annotate(
-            latest_news=Max('news__created_at')
-        ).order_by('-latest_news')
+        'categories': Category.objects
+            .filter(news__isnull=False)
+            .annotate(latest_news=Max('news__created_at'))
+            .order_by('-latest_news')
+            .distinct()
     }
 
 def breaking_news(request):
