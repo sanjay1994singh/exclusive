@@ -63,48 +63,48 @@
     </div>
 </section>
 
-<!--<section class="container mt-5">-->
-<!--    <h3>Latest News</h3>-->
-<!--    <div class="row">-->
-<!--        {% for news_item in news %}-->
-<!--        <div class="col-12 mb-4">-->
-<!--            <a href="/news-detail/{{ news_item.id }}/" style="color: inherit; text-decoration: none;">-->
-<!--                <div class="card news-card h-100">-->
-<!--                    <div class="row g-0 align-items-center">-->
+<section class="container mt-5">
+    <h3>Latest News</h3>
+    <div class="row">
+        {% for news_item in news %}
+        <div class="col-12 mb-4">
+            <a href="/news-detail/{{ news_item.id }}/" style="color: inherit; text-decoration: none;">
+                <div class="card news-card h-100">
+                    <div class="row g-0 align-items-center">
 
-<!--                        &lt;!&ndash; Left Image &ndash;&gt;-->
-<!--                        <div class="col-md-4 col-12">-->
-<!--                            {% if news_item.featured_image %}-->
-<!--                            <img src="{{ news_item.featured_image.url }}"-->
-<!--                                 class="img-fluid rounded-start w-100"-->
-<!--                                 alt="{{ news_item.title }}"-->
-<!--                                 style="object-fit: cover; height: 100%;">-->
-<!--                            {% else %}-->
-<!--                            <img src="https://placehold.co/600x400?text=No+News+Image"-->
-<!--                                 class="img-fluid rounded-start w-100"-->
-<!--                                 alt="Demo News">-->
-<!--                            {% endif %}-->
-<!--                        </div>-->
+                        <!-- Left Image -->
+                        <div class="col-md-4 col-12">
+                            {% if news_item.featured_image %}
+                            <img src="{{ news_item.featured_image.url }}"
+                                 class="img-fluid rounded-start w-100"
+                                 alt="{{ news_item.title }}"
+                                 style="object-fit: cover; height: 100%;">
+                            {% else %}
+                            <img src="https://placehold.co/600x400?text=No+News+Image"
+                                 class="img-fluid rounded-start w-100"
+                                 alt="Demo News">
+                            {% endif %}
+                        </div>
 
-<!--                        &lt;!&ndash; Right Content &ndash;&gt;-->
-<!--                        <div class="col-md-8 col-12">-->
-<!--                            <div class="card-body">-->
-<!--                                <h5 class="card-title mb-2">-->
-<!--                                    <strong>{{ news_item.title }}</strong>-->
-<!--                                </h5>-->
-<!--                                <p class="card-text text-muted mb-0">-->
-<!--                                    {{ news_item.text|truncatewords:15 }}-->
-<!--                                </p>-->
-<!--                            </div>-->
-<!--                        </div>-->
+                        <!-- Right Content -->
+                        <div class="col-md-8 col-12">
+                            <div class="card-body">
+                                <h5 class="card-title mb-2">
+                                    <strong>{{ news_item.title }}</strong>
+                                </h5>
+                                <p class="card-text text-muted mb-0">
+                                    {{ news_item.text|truncatewords:15 }}
+                                </p>
+                            </div>
+                        </div>
 
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </a>-->
-<!--        </div>-->
-<!--        {% endfor %}-->
-<!--    </div>-->
-<!--</section>-->
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
 
 
 <!-- News by Category (only if category has news) -->
