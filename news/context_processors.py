@@ -16,13 +16,20 @@ from django.db.models import Max
 #         ).order_by('-latest_news')
 #     }
 
+# def category_context(request):
+#     return {
+#         'categories': Category.objects
+#             .filter(news__isnull=False)
+#             .annotate(latest_news=Max('news__created_at'))
+#             .order_by('-latest_news')
+#             .distinct()
+#     }
+
 def category_context(request):
     return {
-        'categories': Category.objects
-            .filter(news__isnull=False)
-            .annotate(latest_news=Max('news__created_at'))
-            .order_by('-latest_news')
-            .distinct()
+        'categories': Category.objects.annotate(
+            latest_news=Max('news__created_at')
+        ).order_by('-latest_news', '-id')
     }
 
 def breaking_news(request):
