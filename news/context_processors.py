@@ -26,9 +26,10 @@ from django.db.models import Max
 #             .distinct()
 #     }
 def category_context(request):
+    # Annotate each category with the latest news upload time
     categories = Category.objects.annotate(
         latest_news_time=Max('news__created_at')
-    ).order_by('-latest_news_time', 'id')  # Categories without news go last
+    ).order_by('-latest_news_time', 'id')  # Latest news first, empty categories last
 
     return {
         'categories': categories
