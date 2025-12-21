@@ -28,8 +28,8 @@ from django.db.models import Max
 def category_context(request):
     return {
         'categories': Category.objects.annotate(
-            latest_news=Max('news__created_at')
-        ).order_by('-latest_news', '-id')
+            latest_news_time=Max('news__created_at')
+        ).order_by('-latest_news_time', '-id')
     }
 
 def breaking_news(request):
