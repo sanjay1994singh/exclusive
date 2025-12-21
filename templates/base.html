@@ -63,7 +63,7 @@
     </style>
     <style>
         .breaking-news {
-            position: sticky;   /* Stick to top */
+<!--            position: sticky;   /* Stick to top */-->
             top: 0;
             width: 100%;
             background-color: #000000;  /* Black background */
@@ -110,6 +110,13 @@
             }
             100% {
                 transform: translateX(-100%);
+            }
+        }
+
+
+        @media (max-width: 768px) {
+            .news-items {
+                animation: scroll-news 15s linear infinite; /* 🔥 mobile speed */
             }
         }
 
