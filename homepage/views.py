@@ -9,7 +9,7 @@ from category.models import Category
 # Create your views here.
 def homepage(request):
     categories = Category.objects.all()
-    news = News.objects.all().order_by('-id')
+    news = News.objects.all().order_by('-id')[:3]
     context = {
         'news': news,
         'categories': categories,
