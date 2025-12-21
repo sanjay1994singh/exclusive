@@ -28,8 +28,7 @@ from django.db.models import Max
 def category_context(request):
     categories = Category.objects.annotate(
         latest_news_time=Max('news__created_at')
-    ).filter(news__isnull=False) \
-        .order_by('-latest_news_time')
+    ).order_by('-latest_news_time', 'id')  # Categories without news go last
 
     return {
         'categories': categories
