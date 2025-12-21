@@ -4,6 +4,7 @@ from category.models import Category
 from .models import News
 from django.db.models import Max
 
+
 # def category_context(request):
 #     return {
 #         'category': Category.objects.all().order_by('-id')
@@ -24,13 +25,16 @@ from django.db.models import Max
 #             .order_by('-latest_news')
 #             .distinct()
 #     }
-
 def category_context(request):
+    categories = Category.objects.annotate(
+        latest_news_time=Max('news__created_at')
+    ).filter(news__isnull=False) \
+        .order_by('-latest_news_time')
+
     return {
-        'categories': Category.objects.annotate(
-            latest_news_time=Max('news__created_at')
-        ).order_by('-latest_news_time', '-id')
+        'categories': categories
     }
+
 
 def breaking_news(request):
     return {
