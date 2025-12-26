@@ -44,16 +44,6 @@
 
 {% block content %}
 
-
-<!-- Hero Section -->
-<!--<section class="hero text-center">-->
-<!--    <div class="container">-->
-<!--        <h1 class="display-4 fw-bold">India's Trusted Digital News Platform</h1>-->
-<!--        <p class="lead">Fast • Accurate • Unbiased</p>-->
-<!--        <a href="#" class="btn btn-danger btn-lg">Read Latest News</a>-->
-<!--    </div>-->
-<!--</section>-->
-
 <section class="hero text-center"
          style="position: relative; background: url('https://images.unsplash.com/photo-1581091870624-9e32b29d526b?crop=entropy&cs=tinysrgb&fit=crop&h=200&w=1200') center/cover no-repeat; height: 200px; display: flex; align-items: center;">
     <div style="position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5);"></div>
@@ -113,7 +103,7 @@
     {% if category.news_set.count > 0 %}
     <h3 class="section-title mb-4">{{ category.name }}</h3>
     <div class="row">
-        {% for news_item in category.news_set.all %}
+        {% for news_item in category.news_set.all|slice:":5" %}
         <div class="col-md-4 mb-4">
             <a href="/news-detail/{{news_item.id}}/" style="color: inherit; text-decoration: none;">
 
