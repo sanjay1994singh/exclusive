@@ -1,0 +1,13 @@
+{% if page_obj.paginator.num_pages > 1 %}
+<nav class="ajax-pagination" aria-label="Latest news pagination">
+    <button class="pager-btn" type="button" data-page="{% if page_obj.has_previous %}{{ page_obj.previous_page_number }}{% else %}{{ page_obj.number }}{% endif %}" {% if not page_obj.has_previous %}disabled{% endif %}>Prev</button>
+    {% for page_number in page_range %}
+        {% if page_number == page_obj.paginator.ELLIPSIS %}
+        <span class="pager-ellipsis">{{ page_number }}</span>
+        {% else %}
+        <button class="pager-btn {% if page_number == page_obj.number %}is-active{% endif %}" type="button" data-page="{{ page_number }}">{{ page_number }}</button>
+        {% endif %}
+    {% endfor %}
+    <button class="pager-btn" type="button" data-page="{% if page_obj.has_next %}{{ page_obj.next_page_number }}{% else %}{{ page_obj.number }}{% endif %}" {% if not page_obj.has_next %}disabled{% endif %}>Next</button>
+</nav>
+{% endif %}

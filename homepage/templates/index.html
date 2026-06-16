@@ -57,17 +57,18 @@
     {% endif %}
 </section>
 
-<section class="container my-5">
+<section class="container my-5" data-latest-section data-endpoint="{% url 'latest_news_page' %}">
     <div class="section-heading">
         <div>
             <div class="section-eyebrow">Latest</div>
             <h2>Latest News</h2>
         </div>
     </div>
-    <div class="news-grid news-grid--four">
-        {% for news_item in news|slice:":8" %}
-        {% include 'partials/news_card.html' %}
-        {% endfor %}
+    <div class="news-grid news-grid--four" data-latest-cards>
+        {% include 'partials/latest_news_cards.html' with page_obj=latest_page.page_obj %}
+    </div>
+    <div data-latest-pagination>
+        {% include 'partials/latest_pagination.html' with page_obj=latest_page.page_obj page_range=latest_page.page_range %}
     </div>
 </section>
 

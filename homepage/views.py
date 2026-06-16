@@ -19,6 +19,7 @@ from category.models import Category
 PUBLICATION_NAME = 'Exclusive Bulletin'
 PUBLICATION_LANGUAGE = 'en'
 CATEGORY_PAGE_SIZE = 4
+LATEST_PAGE_SIZE = 4
 
 
 def absolute_url(request, path):
@@ -90,6 +91,26 @@ def paginate_category_news(category, page_number=1, page_size=CATEGORY_PAGE_SIZE
     return paginator, page_obj
 
 
+def paginate_latest_news(page_number=1, page_size=LATEST_PAGE_SIZE):
+    queryset = news_card_queryset().order_by('-id')
+    paginator = Paginator(queryset, page_size)
+    try:
+        page_obj = paginator.page(page_number)
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
+    return paginator, page_obj
+
+
+def latest_pagination_context(page_number=1):
+    paginator, page_obj = paginate_latest_news(page_number)
+    return {
+        'page_obj': page_obj,
+        'page_range': paginator.get_elided_page_range(page_obj.number, on_each_side=1, on_ends=1),
+    }
+
+
 def category_pagination_context(category, page_number=1):
     paginator, page_obj = paginate_category_news(category, page_number)
     return {
@@ -102,6 +123,7 @@ def category_pagination_context(category, page_number=1):
 def homepage(request):
     news_qs = news_card_queryset()
     news = list(news_qs.order_by('-id')[:12])
+    latest_page = latest_pagination_context(request.GET.get('latest_page', 1))
     categories = Category.objects.filter(news__isnull=False).only('id', 'name').distinct().order_by('-id')
     category_sections = [category_pagination_context(category) for category in categories]
     featured_news = news[0] if news else None
@@ -121,6 +143,7 @@ def homepage(request):
     ]
     context = {
         'news': news,
+        'latest_page': latest_page,
         'category_sections': category_sections,
         'featured_news': featured_news,
         'canonical_url': homepage_url,
@@ -239,6 +262,32 @@ def category_news_page(request, id):
         {
             'category_id': category.id,
             'page': category_page['page_obj'].number,
+            'cards_html': cards_html,
+            'pagination_html': pagination_html,
+        }
+    )
+
+
+def latest_news_page(request):
+    latest_page = latest_pagination_context(request.GET.get('page', 1))
+    cards_html = render_to_string(
+        'partials/latest_news_cards.html',
+        {
+            'page_obj': latest_page['page_obj'],
+        },
+        request=request,
+    )
+    pagination_html = render_to_string(
+        'partials/latest_pagination.html',
+        {
+            'page_obj': latest_page['page_obj'],
+            'page_range': latest_page['page_range'],
+        },
+        request=request,
+    )
+    return JsonResponse(
+        {
+            'page': latest_page['page_obj'].number,
             'cards_html': cards_html,
             'pagination_html': pagination_html,
         }

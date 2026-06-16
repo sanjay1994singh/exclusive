@@ -3,10 +3,16 @@
         section.classList.toggle('is-loading', loading);
     }
 
-    async function loadCategoryPage(section, page) {
+    function getSectionParts(section) {
+        return {
+            cards: section.querySelector('[data-category-cards], [data-latest-cards]'),
+            pagination: section.querySelector('[data-category-pagination], [data-latest-pagination]'),
+        };
+    }
+
+    async function loadPage(section, page) {
         const endpoint = section.dataset.endpoint;
-        const cards = section.querySelector('[data-category-cards]');
-        const pagination = section.querySelector('[data-category-pagination]');
+        const { cards, pagination } = getSectionParts(section);
         if (!endpoint || !cards || !pagination) return;
 
         setLoading(section, true);
@@ -27,11 +33,11 @@
     }
 
     document.addEventListener('click', function (event) {
-        const button = event.target.closest('[data-category-section] .pager-btn');
+        const button = event.target.closest('[data-category-section] .pager-btn, [data-latest-section] .pager-btn');
         if (!button || button.disabled) return;
-        const section = button.closest('[data-category-section]');
+        const section = button.closest('[data-category-section], [data-latest-section]');
         if (!section) return;
         event.preventDefault();
-        loadCategoryPage(section, button.dataset.page);
+        loadPage(section, button.dataset.page);
     });
 })();

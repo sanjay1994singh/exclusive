@@ -5,6 +5,7 @@ urlpatterns = [
     path('', views.homepage, name='homepage'),
     path('news-detail/<int:id>/', views.news_detail, name='news_detail'),
     path('category_news/<int:id>/', views.category_news, name='category_news'),
+    path('latest-news-page/', views.latest_news_page, name='latest_news_page'),
     path('category-news-page/<int:id>/', views.category_news_page, name='category_news_page'),
     path('robots.txt', views.robots_txt, name='robots_txt'),
     path('sitemap.xml', views.sitemap_xml, name='sitemap_xml'),
