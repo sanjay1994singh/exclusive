@@ -37,7 +37,7 @@ a {
     background: var(--ink);
     color: #fff;
     font-size: .88rem;
-    padding: .45rem 0;
+    padding: .38rem 0;
 }
 
 .top-bar a {
@@ -49,6 +49,7 @@ a {
     background: rgba(255, 255, 255, .96);
     border-bottom: 1px solid var(--line);
     backdrop-filter: blur(10px);
+    padding: .45rem 0;
 }
 
 .navbar-brand {
@@ -88,7 +89,7 @@ a {
     color: #fff;
     font-weight: 700;
     z-index: 999;
-    padding: .7rem 0;
+    padding: .5rem 0;
     overflow: hidden;
     --marquee-speed: 450s;
 }
@@ -101,7 +102,6 @@ a {
     display: inline-flex;
     align-items: center;
     padding: .32rem .72rem;
-    margin-right: 1rem;
     font-size: .78rem;
 }
 
@@ -160,7 +160,7 @@ a {
 .hero-news {
     background: #10141b;
     color: #fff;
-    padding: clamp(2rem, 5vw, 4.5rem) 0;
+    padding: clamp(1.5rem, 4vw, 3.2rem) 0;
 }
 
 .hero-kicker {
@@ -192,7 +192,7 @@ a {
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    margin-bottom: 1.2rem;
+    margin-bottom: 1rem;
 }
 
 .section-heading h2,
@@ -222,7 +222,7 @@ a {
 .lead-card {
     display: grid;
     grid-template-columns: minmax(0, 1.1fr) minmax(280px, .9fr);
-    min-height: 360px;
+    min-height: 320px;
 }
 
 .lead-card img,
@@ -233,7 +233,7 @@ a {
 }
 
 .lead-card__body {
-    padding: clamp(1.25rem, 3vw, 2.2rem);
+    padding: clamp(1rem, 2.5vw, 1.8rem);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -266,7 +266,7 @@ a {
 .news-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.2rem;
+    gap: 1rem;
 }
 
 .news-card {
@@ -285,7 +285,7 @@ a {
 }
 
 .news-card__body {
-    padding: 1rem;
+    padding: .9rem;
 }
 
 .news-card h3 {
@@ -302,7 +302,7 @@ a {
 .article-hero {
     background: #fff;
     border-bottom: 1px solid var(--line);
-    padding: clamp(2rem, 4vw, 4rem) 0 2rem;
+    padding: clamp(1.5rem, 4vw, 3rem) 0 1.5rem;
 }
 
 .article-hero h1 {
@@ -312,7 +312,7 @@ a {
 }
 
 .article-shell {
-    padding: clamp(1rem, 3vw, 2rem);
+    padding: clamp(1rem, 2.5vw, 1.75rem);
 }
 
 .article-image {
@@ -347,7 +347,7 @@ a {
 .site-footer {
     background: #111318;
     color: #cfd4dc;
-    padding: 2.5rem 0 1.25rem;
+    padding: 2rem 0 1rem;
 }
 
 .footer-brand {
@@ -409,5 +409,17 @@ a {
 
     .breaking-news {
         --marquee-speed: 260s;
+    }
+
+    .top-bar {
+        font-size: .8rem;
+    }
+
+    .nav-link {
+        padding: .45rem 0;
+    }
+
+    .hero-news {
+        padding: 1.4rem 0;
     }
 }

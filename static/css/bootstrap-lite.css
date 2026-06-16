@@ -4,8 +4,16 @@
     box-sizing: border-box;
 }
 
+body {
+    margin: 0;
+}
+
+img {
+    display: block;
+}
+
 .container {
-    width: min(100% - 2rem, 1140px);
+    width: min(100% - 1.5rem, 1140px);
     margin-inline: auto;
 }
 
@@ -26,12 +34,12 @@
     width: 100%;
 }
 
-.g-2 {
-    gap: .5rem;
+.row.g-2 {
+    row-gap: .5rem;
 }
 
-.g-4 {
-    gap: 1.5rem;
+.row.g-4 {
+    row-gap: 1.5rem;
 }
 
 .d-flex {
@@ -99,11 +107,11 @@
 }
 
 .mt-5 {
-    margin-top: 3rem;
+    margin-top: 2rem;
 }
 
 .my-5 {
-    margin-block: 3rem;
+    margin-block: 2rem;
 }
 
 .p-4 {
