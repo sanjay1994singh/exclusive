@@ -90,7 +90,7 @@ a {
     z-index: 999;
     padding: .5rem 0;
     overflow: hidden;
-    --marquee-speed: 450s;
+    --marquee-speed: 50s;
 }
 
 .breaking-label {
@@ -166,7 +166,7 @@ a {
 }
 
 .hero-news::before {
-    background: url("../images/news-studio-hero.png") center/cover no-repeat;
+    background: url("../images/news-studio-hero.webp") center/cover no-repeat;
     content: "";
     filter: blur(5px);
     inset: -10px;

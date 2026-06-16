@@ -1,4 +1,5 @@
 from django.db import models
+from django_ckeditor_5.fields import CKEditor5Field
 
 from category.models import Category
 
@@ -10,7 +11,7 @@ class News(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=500, null=True, blank=True)
     city = models.CharField(max_length=10, null=True)
-    text = models.TextField(null=True, blank=True)
+    text = CKEditor5Field(config_name='default', null=True, blank=True)
     featured_image = models.ImageField(upload_to='news_image', null=True, blank=True)
     count = models.IntegerField(default=0)
     reporter = models.CharField(max_length=100, default='Exclusive Bulletin')

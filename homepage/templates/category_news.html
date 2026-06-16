@@ -32,9 +32,9 @@
             <article class="news-card">
                 <div class="news-card__image">
                     {% if news_item.featured_image %}
-                    <img src="{{ news_item.featured_image.url }}" alt="{{ news_item.title }}" loading="lazy">
+                    <img src="{{ news_item.featured_image.url }}" alt="{{ news_item.title }}" loading="lazy" decoding="async">
                     {% else %}
-                    <img src="/static/images/logo.jpeg" alt="Exclusive Bulletin news" loading="lazy">
+                    <img src="/static/images/logo.jpeg" alt="Exclusive Bulletin news" loading="lazy" decoding="async">
                     {% endif %}
                 </div>
                 <div class="news-card__body">

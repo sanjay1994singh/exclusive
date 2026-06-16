@@ -6,11 +6,11 @@ from .models import News
 
 def category_context(request):
     return {
-        'category': Category.objects.all().order_by('-id')
+        'category': Category.objects.only('id', 'name').order_by('-id')
     }
 
 
 def breaking_news(request):
     return {
-        'breaking_news': News.objects.filter().order_by('-created_at')
+        'breaking_news': News.objects.only('id', 'title').order_by('-created_at')[:15]
     }

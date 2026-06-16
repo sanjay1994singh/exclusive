@@ -2,13 +2,13 @@ import json
 from datetime import timedelta
 from xml.sax.saxutils import escape
 
+from django.db.models import F, Prefetch
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.utils import timezone
 
 from news.models import News
-import random
 
 from category.models import Category
 
@@ -64,8 +64,23 @@ def organization_schema(request):
 
 
 def homepage(request):
-    categories = Category.objects.all()
-    news = News.objects.select_related('category').all().order_by('-id')[:12]
+    news_qs = News.objects.select_related('category').only(
+        'id',
+        'category__name',
+        'title',
+        'text',
+        'featured_image',
+        'count',
+        'created_at',
+    )
+    news = list(news_qs.order_by('-id')[:12])
+    categories = Category.objects.filter(news__isnull=False).only('id', 'name').distinct().prefetch_related(
+        Prefetch(
+            'news_set',
+            queryset=news_qs.order_by('-id')[:5],
+            to_attr='homepage_news',
+        )
+    )
     featured_news = news[0] if news else None
     homepage_url = absolute_url(request, reverse('homepage'))
     home_schema = [
@@ -93,14 +108,25 @@ def homepage(request):
 
 
 def news_detail(request, id):
-    news = get_object_or_404(News.objects.select_related('category'), id=id)
-    count = news.count
-    number = random.randint(1, 5)
-    total_count = int(number + count)
-    news.count = total_count
-    news.save()
+    news = get_object_or_404(
+        News.objects.select_related('category').only(
+            'id',
+            'category__name',
+            'title',
+            'city',
+            'text',
+            'featured_image',
+            'count',
+            'reporter',
+            'created_at',
+            'updated_at',
+        ),
+        id=id,
+    )
+    News.objects.filter(id=news.id).update(count=F('count') + 1)
+    news.count += 1
     absolute_image_url = image_url(request, news)
-    category = Category.objects.all().order_by('-id')
+    category = Category.objects.only('id', 'name').order_by('-id')
     canonical_url = absolute_url(request, reverse('news_detail', args=[news.id]))
     article_schema = {
         '@context': 'https://schema.org',
@@ -134,6 +160,7 @@ def news_detail(request, id):
         'category': category,
         'canonical_url': canonical_url,
         'meta_description': clean_description(news.text),
+        'article_keywords': article_keywords(news),
         'article_schema': json.dumps(article_schema),
     }
     return render(request, 'detail.html', context)
@@ -141,7 +168,15 @@ def news_detail(request, id):
 
 def category_news(request, id):
     category_name = get_object_or_404(Category, id=id)
-    all_news = News.objects.filter(category_id=id).select_related('category').order_by('-id')[:30]
+    all_news = News.objects.filter(category_id=id).select_related('category').only(
+        'id',
+        'category__name',
+        'title',
+        'text',
+        'featured_image',
+        'count',
+        'created_at',
+    ).order_by('-id')[:30]
     canonical_url = absolute_url(request, reverse('category_news', args=[category_name.id]))
     category_schema = {
         '@context': 'https://schema.org',

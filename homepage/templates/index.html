@@ -34,9 +34,9 @@
             </div>
             <div class="lead-card__image">
                 {% if featured_news.featured_image %}
-                <img src="{{ featured_news.featured_image.url }}" alt="{{ featured_news.title }}" loading="eager">
+                <img src="{{ featured_news.featured_image.url }}" alt="{{ featured_news.title }}" loading="eager" decoding="async" fetchpriority="high">
                 {% else %}
-                <img src="/static/images/logo.jpeg" alt="Exclusive Bulletin top story" loading="eager">
+                <img src="/static/images/logo.jpeg" alt="Exclusive Bulletin top story" loading="eager" decoding="async" fetchpriority="high">
                 {% endif %}
             </div>
         </article>
@@ -57,9 +57,9 @@
             <article class="news-card">
                 <div class="news-card__image">
                     {% if news_item.featured_image %}
-                    <img src="{{ news_item.featured_image.url }}" alt="{{ news_item.title }}" loading="lazy">
+                    <img src="{{ news_item.featured_image.url }}" alt="{{ news_item.title }}" loading="lazy" decoding="async">
                     {% else %}
-                    <img src="/static/images/logo.jpeg" alt="Exclusive Bulletin news" loading="lazy">
+                    <img src="/static/images/logo.jpeg" alt="Exclusive Bulletin news" loading="lazy" decoding="async">
                     {% endif %}
                 </div>
                 <div class="news-card__body">
@@ -79,7 +79,7 @@
 
 <section class="container my-5">
     {% for category in categories %}
-    {% if category.news_set.count > 0 %}
+    {% if category.homepage_news %}
     <div class="section-heading mt-5">
         <div>
             <div class="section-eyebrow">Category</div>
@@ -88,14 +88,14 @@
         <a href="/category_news/{{ category.id }}/" class="btn btn-outline-danger btn-sm">View all</a>
     </div>
     <div class="news-grid">
-        {% for news_item in category.news_set.all|slice:":5" %}
+        {% for news_item in category.homepage_news %}
         <a href="/news-detail/{{ news_item.id }}/" class="text-decoration-none">
             <article class="news-card">
                 <div class="news-card__image">
                     {% if news_item.featured_image %}
-                    <img src="{{ news_item.featured_image.url }}" alt="{{ news_item.title }}" loading="lazy">
+                    <img src="{{ news_item.featured_image.url }}" alt="{{ news_item.title }}" loading="lazy" decoding="async">
                     {% else %}
-                    <img src="/static/images/logo.jpeg" alt="Exclusive Bulletin news" loading="lazy">
+                    <img src="/static/images/logo.jpeg" alt="Exclusive Bulletin news" loading="lazy" decoding="async">
                     {% endif %}
                 </div>
                 <div class="news-card__body">
