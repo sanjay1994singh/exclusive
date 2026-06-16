@@ -8,4 +8,5 @@ urlpatterns = [
     path('robots.txt', views.robots_txt, name='robots_txt'),
     path('sitemap.xml', views.sitemap_xml, name='sitemap_xml'),
     path('news-sitemap.xml', views.news_sitemap_xml, name='news_sitemap_xml'),
+    path('rss.xml', views.rss_feed, name='rss_feed'),
 ]
