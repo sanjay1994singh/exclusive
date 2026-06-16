@@ -43,6 +43,10 @@
 </section>
 
 <section class="container my-5">
+    {% include 'partials/ad_slot.html' with title='Article Top Demo Ad' text='Ad placement above the story content.' %}
+</section>
+
+<section class="container my-5">
     <div class="row justify-content-center">
         <div class="col-lg-10">
             <article class="article-shell">
@@ -69,5 +73,9 @@
             </article>
         </div>
     </div>
+</section>
+
+<section class="container my-5">
+    {% include 'partials/ad_slot.html' with title='Article Bottom Demo Ad' text='Display ad after article reading.' %}
 </section>
 {% endblock content %}

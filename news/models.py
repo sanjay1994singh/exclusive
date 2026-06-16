@@ -26,15 +26,3 @@ class News(models.Model):
         db_table = 'news'
         ordering = ['-created_at']
 
-
-class OtherNewsImage(models.Model):
-    news = models.ForeignKey(News, on_delete=models.CASCADE, null=True, blank=True)
-    other_image = models.ImageField(upload_to='other_news_image', null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
-
-    def __str__(self):
-        return str(self.news.title)
-
-    class Meta:
-        db_table = 'other_news_image'

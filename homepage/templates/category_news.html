@@ -11,48 +11,30 @@
 {% endblock metatags %}
 
 {% block content %}
-<section class="hero-news">
+<section class="hero-news hero-news--compact">
     <div class="container">
-        <span class="hero-kicker"><i class="bi bi-folder2-open"></i> Category</span>
+        <span class="hero-kicker"><i class="bi bi-folder2-open"></i> Category Desk</span>
         <h1>{{ category_name }}</h1>
         <p>{{ meta_description }}</p>
     </div>
 </section>
 
 <section class="container my-5">
-    <div class="section-heading">
+    {% include 'partials/ad_slot.html' with title='Category Page Demo Ad' text='Display ad space above category news.' %}
+</section>
+
+<section class="container my-5 category-block" data-category-section data-category-id="{{ category_name.id }}" data-endpoint="{% url 'category_news_page' category_name.id %}">
+    <div class="category-block__head">
         <div>
             <div class="section-eyebrow">Latest</div>
             <h2>{{ category_name }} News</h2>
         </div>
     </div>
-    <div class="news-grid">
-        {% for news_item in news %}
-        <a href="/news-detail/{{ news_item.id }}/" class="text-decoration-none">
-            <article class="news-card">
-                <div class="news-card__image">
-                    {% if news_item.featured_image %}
-                    <img src="{{ news_item.featured_image.url }}" alt="{{ news_item.title }}" loading="lazy" decoding="async">
-                    {% else %}
-                    <img src="/static/images/logo.jpeg" alt="Exclusive Bulletin news" loading="lazy" decoding="async">
-                    {% endif %}
-                </div>
-                <div class="news-card__body">
-                    <span class="badge-topic mb-2">{{ category_name }}</span>
-                    <h3>{{ news_item.title }}</h3>
-                    <p>{{ news_item.text|striptags|truncatewords:20 }}</p>
-                    <div class="meta-line">
-                        <span>{{ news_item.created_at|date:"j M Y" }}</span>
-                        <span>{{ news_item.count }} views</span>
-                    </div>
-                </div>
-            </article>
-        </a>
-        {% empty %}
-        <div class="article-shell p-4">
-            <p class="mb-0">No news is published in this category yet.</p>
-        </div>
-        {% endfor %}
+    <div class="news-grid news-grid--four" data-category-cards>
+        {% include 'partials/category_news_cards.html' with category=category_name page_obj=category_page.page_obj %}
+    </div>
+    <div data-category-pagination>
+        {% include 'partials/category_pagination.html' with category=category_name page_obj=category_page.page_obj page_range=category_page.page_range %}
     </div>
 </section>
 {% endblock content %}

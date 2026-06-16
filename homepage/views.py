@@ -2,9 +2,11 @@ import json
 from datetime import timedelta
 from xml.sax.saxutils import escape
 
-from django.db.models import F, Prefetch
-from django.http import HttpResponse
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.db.models import F
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
+from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 
@@ -16,6 +18,7 @@ from category.models import Category
 # Create your views here.
 PUBLICATION_NAME = 'Exclusive Bulletin'
 PUBLICATION_LANGUAGE = 'en'
+CATEGORY_PAGE_SIZE = 4
 
 
 def absolute_url(request, path):
@@ -63,8 +66,8 @@ def organization_schema(request):
     }
 
 
-def homepage(request):
-    news_qs = News.objects.select_related('category').only(
+def news_card_queryset():
+    return News.objects.select_related('category').only(
         'id',
         'category__name',
         'title',
@@ -73,14 +76,34 @@ def homepage(request):
         'count',
         'created_at',
     )
+
+
+def paginate_category_news(category, page_number=1, page_size=CATEGORY_PAGE_SIZE):
+    queryset = news_card_queryset().filter(category=category).order_by('-id')
+    paginator = Paginator(queryset, page_size)
+    try:
+        page_obj = paginator.page(page_number)
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
+    return paginator, page_obj
+
+
+def category_pagination_context(category, page_number=1):
+    paginator, page_obj = paginate_category_news(category, page_number)
+    return {
+        'category': category,
+        'page_obj': page_obj,
+        'page_range': paginator.get_elided_page_range(page_obj.number, on_each_side=1, on_ends=1),
+    }
+
+
+def homepage(request):
+    news_qs = news_card_queryset()
     news = list(news_qs.order_by('-id')[:12])
-    categories = Category.objects.filter(news__isnull=False).only('id', 'name').distinct().prefetch_related(
-        Prefetch(
-            'news_set',
-            queryset=news_qs.order_by('-id')[:5],
-            to_attr='homepage_news',
-        )
-    )
+    categories = Category.objects.filter(news__isnull=False).only('id', 'name').distinct().order_by('-id')
+    category_sections = [category_pagination_context(category) for category in categories]
     featured_news = news[0] if news else None
     homepage_url = absolute_url(request, reverse('homepage'))
     home_schema = [
@@ -98,7 +121,7 @@ def homepage(request):
     ]
     context = {
         'news': news,
-        'categories': categories,
+        'category_sections': category_sections,
         'featured_news': featured_news,
         'canonical_url': homepage_url,
         'home_schema': json.dumps(home_schema),
@@ -168,15 +191,7 @@ def news_detail(request, id):
 
 def category_news(request, id):
     category_name = get_object_or_404(Category, id=id)
-    all_news = News.objects.filter(category_id=id).select_related('category').only(
-        'id',
-        'category__name',
-        'title',
-        'text',
-        'featured_image',
-        'count',
-        'created_at',
-    ).order_by('-id')[:30]
+    category_page = category_pagination_context(category_name, request.GET.get('page', 1))
     canonical_url = absolute_url(request, reverse('category_news', args=[category_name.id]))
     category_schema = {
         '@context': 'https://schema.org',
@@ -191,13 +206,43 @@ def category_news(request, id):
     }
 
     context = {
-        'news': all_news,
         'category_name': category_name,
+        'category_page': category_page,
         'canonical_url': canonical_url,
         'meta_description': category_name.desc or f'Latest {category_name.name} news updates from Exclusive Bulletin.',
         'category_schema': json.dumps(category_schema),
     }
     return render(request, 'category_news.html', context)
+
+
+def category_news_page(request, id):
+    category = get_object_or_404(Category, id=id)
+    category_page = category_pagination_context(category, request.GET.get('page', 1))
+    cards_html = render_to_string(
+        'partials/category_news_cards.html',
+        {
+            'category': category,
+            'page_obj': category_page['page_obj'],
+        },
+        request=request,
+    )
+    pagination_html = render_to_string(
+        'partials/category_pagination.html',
+        {
+            'category': category,
+            'page_obj': category_page['page_obj'],
+            'page_range': category_page['page_range'],
+        },
+        request=request,
+    )
+    return JsonResponse(
+        {
+            'category_id': category.id,
+            'page': category_page['page_obj'].number,
+            'cards_html': cards_html,
+            'pagination_html': pagination_html,
+        }
+    )
 
 
 def robots_txt(request):

@@ -77,6 +77,10 @@
     </div>
 </div>
 
+<div class="container base-ad-wrap">
+    {% include 'partials/ad_slot.html' with title='Sitewide Demo Ad' text='Header ad space visible across all pages.' %}
+</div>
+
 <main id="main-content">
     {% block content %}{% endblock %}
 </main>
@@ -111,6 +115,7 @@
 </footer>
 
 <script src="{% static 'js/bootstrap-lite.js' %}"></script>
+<script src="{% static 'js/news-pagination.js' %}"></script>
 {% block js %}{% endblock %}
 </body>
 </html>

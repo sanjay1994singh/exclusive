@@ -1,0 +1,20 @@
+<a href="/news-detail/{{ news_item.id }}/" class="text-decoration-none">
+    <article class="news-card">
+        <div class="news-card__image">
+            {% if news_item.featured_image %}
+            <img src="{{ news_item.featured_image.url }}" alt="{{ news_item.title }}" loading="lazy" decoding="async">
+            {% else %}
+            <img src="/static/images/logo.jpeg" alt="Exclusive Bulletin news" loading="lazy" decoding="async">
+            {% endif %}
+        </div>
+        <div class="news-card__body">
+            <span class="badge-topic mb-2">{% if news_item.category %}{{ news_item.category }}{% else %}News{% endif %}</span>
+            <h3>{{ news_item.title }}</h3>
+            <p>{{ news_item.text|striptags|truncatewords:18 }}</p>
+            <div class="meta-line">
+                <span>{{ news_item.created_at|date:"j M Y" }}</span>
+                <span>{{ news_item.count }} views</span>
+            </div>
+        </div>
+    </article>
+</a>

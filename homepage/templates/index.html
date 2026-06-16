@@ -11,38 +11,51 @@
 {% endblock metatags %}
 
 {% block content %}
-<section class="hero-news">
+<section class="hero-news hero-news--editorial">
     <div class="container">
-        <span class="hero-kicker"><i class="bi bi-lightning-charge-fill"></i> Breaking News Network</span>
+        <span class="hero-kicker"><i class="bi bi-lightning-charge-fill"></i> Live News Desk</span>
         <h1>Exclusive Bulletin</h1>
-        <p>Fast, accurate and independent news updates with a clean reading experience built for mobile, search, and social sharing.</p>
+        <p>Sharp local reporting, breaking stories, and category-wise updates in one fast newsroom layout.</p>
     </div>
 </section>
 
-{% if featured_news %}
-<section class="container my-5">
-    <a href="/news-detail/{{ featured_news.id }}/" class="text-decoration-none">
-        <article class="lead-card">
-            <div class="lead-card__body">
-                <span class="badge-topic mb-3">{% if featured_news.category %}{{ featured_news.category }}{% else %}Top Story{% endif %}</span>
-                <h2>{{ featured_news.title }}</h2>
-                <p>{{ featured_news.text|striptags|truncatewords:30 }}</p>
-                <div class="meta-line">
-                    <span><i class="bi bi-clock"></i> {{ featured_news.created_at|date:"j M Y, H:i" }}</span>
-                    <span><i class="bi bi-eye"></i> {{ featured_news.count }} views</span>
+<section class="container news-shell">
+    {% include 'partials/ad_slot.html' with title='Top Banner Demo Ad' text='Leaderboard ad space for homepage campaigns.' %}
+
+    {% if featured_news %}
+    <div class="front-grid">
+        <a href="/news-detail/{{ featured_news.id }}/" class="front-lead text-decoration-none">
+            <article>
+                <div class="front-lead__image">
+                    {% if featured_news.featured_image %}
+                    <img src="{{ featured_news.featured_image.url }}" alt="{{ featured_news.title }}" loading="eager" decoding="async" fetchpriority="high">
+                    {% else %}
+                    <img src="/static/images/logo.jpeg" alt="Exclusive Bulletin top story" loading="eager" decoding="async" fetchpriority="high">
+                    {% endif %}
                 </div>
+                <div class="front-lead__content">
+                    <span class="badge-topic">{% if featured_news.category %}{{ featured_news.category }}{% else %}Top Story{% endif %}</span>
+                    <h2>{{ featured_news.title }}</h2>
+                    <p>{{ featured_news.text|striptags|truncatewords:34 }}</p>
+                    <div class="meta-line">
+                        <span>{{ featured_news.created_at|date:"j M Y, H:i" }}</span>
+                        <span>{{ featured_news.count }} views</span>
+                    </div>
+                </div>
+            </article>
+        </a>
+        <div class="front-sidebar">
+            {% include 'partials/ad_slot.html' with size='box' title='Square Demo Ad' text='Sidebar ad placement.' %}
+            <div class="mini-headlines">
+                <div class="section-eyebrow">Fresh Updates</div>
+                {% for news_item in news|slice:"1:5" %}
+                <a href="/news-detail/{{ news_item.id }}/">{{ news_item.title }}</a>
+                {% endfor %}
             </div>
-            <div class="lead-card__image">
-                {% if featured_news.featured_image %}
-                <img src="{{ featured_news.featured_image.url }}" alt="{{ featured_news.title }}" loading="eager" decoding="async" fetchpriority="high">
-                {% else %}
-                <img src="/static/images/logo.jpeg" alt="Exclusive Bulletin top story" loading="eager" decoding="async" fetchpriority="high">
-                {% endif %}
-            </div>
-        </article>
-    </a>
+        </div>
+    </div>
+    {% endif %}
 </section>
-{% endif %}
 
 <section class="container my-5">
     <div class="section-heading">
@@ -51,63 +64,41 @@
             <h2>Latest News</h2>
         </div>
     </div>
-    <div class="news-grid">
-        {% for news_item in news %}
-        <a href="/news-detail/{{ news_item.id }}/" class="text-decoration-none">
-            <article class="news-card">
-                <div class="news-card__image">
-                    {% if news_item.featured_image %}
-                    <img src="{{ news_item.featured_image.url }}" alt="{{ news_item.title }}" loading="lazy" decoding="async">
-                    {% else %}
-                    <img src="/static/images/logo.jpeg" alt="Exclusive Bulletin news" loading="lazy" decoding="async">
-                    {% endif %}
-                </div>
-                <div class="news-card__body">
-                    <span class="badge-topic mb-2">{% if news_item.category %}{{ news_item.category }}{% else %}News{% endif %}</span>
-                    <h3>{{ news_item.title }}</h3>
-                    <p class="mb-3">{{ news_item.text|striptags|truncatewords:18 }}</p>
-                    <div class="meta-line">
-                        <span>{{ news_item.created_at|date:"j M Y" }}</span>
-                        <span>{{ news_item.count }} views</span>
-                    </div>
-                </div>
-            </article>
-        </a>
+    <div class="news-grid news-grid--four">
+        {% for news_item in news|slice:":8" %}
+        {% include 'partials/news_card.html' %}
         {% endfor %}
     </div>
 </section>
 
 <section class="container my-5">
-    {% for category in categories %}
-    {% if category.homepage_news %}
-    <div class="section-heading mt-5">
+    {% include 'partials/ad_slot.html' with title='In-Feed Demo Ad' text='Native ad space between latest and category sections.' %}
+</section>
+
+<section class="container my-5 category-zone">
+    <div class="section-heading">
         <div>
-            <div class="section-eyebrow">Category</div>
-            <h2>{{ category.name }}</h2>
+            <div class="section-eyebrow">Browse By Category</div>
+            <h2>Category Wise News</h2>
         </div>
-        <a href="/category_news/{{ category.id }}/" class="btn btn-outline-danger btn-sm">View all</a>
     </div>
-    <div class="news-grid">
-        {% for news_item in category.homepage_news %}
-        <a href="/news-detail/{{ news_item.id }}/" class="text-decoration-none">
-            <article class="news-card">
-                <div class="news-card__image">
-                    {% if news_item.featured_image %}
-                    <img src="{{ news_item.featured_image.url }}" alt="{{ news_item.title }}" loading="lazy" decoding="async">
-                    {% else %}
-                    <img src="/static/images/logo.jpeg" alt="Exclusive Bulletin news" loading="lazy" decoding="async">
-                    {% endif %}
-                </div>
-                <div class="news-card__body">
-                    <h3>{{ news_item.title }}</h3>
-                    <p>{{ news_item.text|striptags|truncatewords:18 }}</p>
-                    <div class="meta-line"><span>{{ news_item.created_at|date:"j M Y" }}</span></div>
-                </div>
-            </article>
-        </a>
-        {% endfor %}
-    </div>
-    {% endif %}
+
+    {% for section in category_sections %}
+    <section class="category-block" data-category-section data-category-id="{{ section.category.id }}" data-endpoint="{% url 'category_news_page' section.category.id %}">
+        <div class="category-block__head">
+            <div>
+                <span class="section-eyebrow">Category</span>
+                <h2>{{ section.category.name }}</h2>
+            </div>
+            <a href="/category_news/{{ section.category.id }}/" class="btn btn-outline-danger btn-sm">Open category</a>
+        </div>
+        <div class="news-grid news-grid--four" data-category-cards>
+            {% include 'partials/category_news_cards.html' with category=section.category page_obj=section.page_obj %}
+        </div>
+        <div data-category-pagination>
+            {% include 'partials/category_pagination.html' with category=section.category page_obj=section.page_obj page_range=section.page_range %}
+        </div>
+    </section>
     {% endfor %}
 </section>
 {% endblock %}

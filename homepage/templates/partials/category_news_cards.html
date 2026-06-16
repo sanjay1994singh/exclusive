@@ -1,0 +1,7 @@
+{% for news_item in page_obj %}
+{% include 'partials/news_card.html' %}
+{% empty %}
+<div class="article-shell p-4">
+    <p class="mb-0">No news is published in this category yet.</p>
+</div>
+{% endfor %}
