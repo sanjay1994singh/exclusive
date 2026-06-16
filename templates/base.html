@@ -1,190 +1,66 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Exclusive Bulletin | News Network{% endblock %}</title>
+    <title>{% block title %}Exclusive Bulletin | Latest Breaking News{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4718130976669658"
-            crossorigin="anonymous"></script>
-
-    <script async custom-element="amp-auto-ads"
-            src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
-    </script>
-
-    {% block metatags %}
-    {% endblock metatags %}
-    <!-- Bootstrap 5 -->
+    <meta name="description" content="{% block meta_description %}Exclusive Bulletin brings fast, verified breaking news, local updates, politics, sports, entertainment, and public-interest reporting.{% endblock %}">
+    <meta name="robots" content="{% block robots %}index, follow, max-image-preview:large{% endblock %}">
+    <link rel="canonical" href="{% block canonical %}{{ request.build_absolute_uri }}{% endblock %}">
+    <meta property="og:site_name" content="Exclusive Bulletin">
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}Exclusive Bulletin | Latest Breaking News{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Fast, verified news updates from Exclusive Bulletin.{% endblock %}">
+    <meta property="og:url" content="{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.jpeg' %}{% endblock %}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}Exclusive Bulletin | Latest Breaking News{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}Fast, verified news updates from Exclusive Bulletin.{% endblock %}">
+    <meta name="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.jpeg' %}{% endblock %}">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4718130976669658" crossorigin="anonymous"></script>
+    {% block metatags %}{% endblock metatags %}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <link rel="icon" type="image/x-icon" href="/static/images/logo.jpeg">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-
-    <!-- Icons -->
+    <link rel="icon" type="image/x-icon" href="{% static 'images/logo.jpeg' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-
-    <style>
-        body {
-            user-select: none;
-            -webkit-user-select: none;
-        }
-    </style>
-
-    <style>
-        body {
-        font-family: 'Poppins', sans-serif;
-        background-color: #f4f6f9;
-        }
-        .top-bar {
-        background: #b80000;
-        color: #fff;
-        font-size: 14px;
-        }
-        .navbar {
-        background: #ffffff;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        .navbar-brand {
-        font-weight: 700;
-        color: #b80000 !important;
-        }
-        .breaking-news {
-        background: #111;
-        color: #fff;
-        padding: 8px 0;
-        }
-        .breaking-news span {
-        background: #b80000;
-        padding: 5px 10px;
-        margin-right: 10px;
-        font-weight: 600;
-        }
-        footer {
-        background: #111;
-        color: #ccc;
-        padding: 30px 0;
-        }
-        footer a { color: #fff; text-decoration: none; }
-    </style>
-    <style>
-        .breaking-news {
-<!--            position: sticky;   /* Stick to top */-->
-            top: 0;
-            width: 100%;
-            background-color: #000000;  /* Black background */
-            color: white;
-            font-weight: bold;
-            z-index: 9999;
-            padding: 10px 0;
-            overflow: hidden;
-        }
-
-
-        .breaking-label {
-            display: inline-block;
-            margin-right: 20px;
-            z-index: 10;
-        }
-
-        .news-scroll {
-            display: flex;
-            align-items: center;
-            overflow: hidden;
-            white-space: nowrap;
-        }
-
-        .news-items {
-            display: inline-block;
-            padding-left: 100%; /* start outside the view */
-            animation: scroll-news 300s linear infinite;
-        }
-
-        .news-items a {
-            color: white;
-            text-decoration: none;
-            margin-right: 15px;
-        }
-
-        .news-items .separator {
-            margin-right: 15px;
-        }
-
-        @keyframes scroll-news {
-            0% {
-                transform: translateX(0%);
-            }
-            100% {
-                transform: translateX(-100%);
-            }
-        }
-
-
-        @media (max-width: 768px) {
-            .news-items {
-                animation: scroll-news 350s linear infinite; /* 🔥 mobile speed */
-            }
-        }
-
-    </style>
-    <script>
-        document.addEventListener('contextmenu', e => e.preventDefault());
-        document.addEventListener('dragstart', e => e.preventDefault());
-
-        document.addEventListener('keydown', function(e) {
-            if (
-                (e.ctrlKey && ['c','u','a','s'].includes(e.key.toLowerCase())) ||
-                e.key === 'F12'
-            ) {
-                e.preventDefault();
-            }
-        });
-    </script>
-
+    <link href="{% static 'css/site.css' %}" rel="stylesheet">
     {% block css %}{% endblock %}
-
 </head>
 <body>
+<a class="visually-hidden-focusable skip-link" href="#main-content">Skip to content</a>
 
-<amp-auto-ads type="adsense"
-        data-ad-client="ca-pub-4718130976669658">
-</amp-auto-ads>
-
-
-<!-- Top Bar -->
-<div class="top-bar py-1 text-center">
-    Latest Updates | Trusted News Network
+<div class="top-bar">
+    <div class="container d-flex flex-wrap align-items-center justify-content-between gap-2">
+        <span><i class="bi bi-broadcast-pin"></i> Latest verified updates</span>
+        <span>Contact: <a href="tel:+919897610825">9897610825</a></span>
+    </div>
 </div>
 
-
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg sticky-top">
     <div class="container">
-        <a class="navbar-brand" href="/">
-            <img src="/static/images/logo.jpeg"
-                 alt="Exclusive Bulletin"
-                 height="45"
-                 class="d-inline-block align-top">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+            <img src="{% static 'images/logo.jpeg' %}" alt="Exclusive Bulletin" width="46" height="46">
+            <span>Exclusive Bulletin</span>
         </a>
-
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-label="Open navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navMenu">
-            <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                 {% for i in category %}
-                <li class="nav-item"><a href="/category_news/{{i.id}}/" class="nav-link">{{i.name}}</a></li>
+                <li class="nav-item"><a href="/category_news/{{ i.id }}/" class="nav-link">{{ i.name }}</a></li>
                 {% endfor %}
-
-                <li class="nav-item"><a class="nav-link" href="/">Contact</a></li>
+                <li class="nav-item ms-lg-2">
+                    <a class="btn btn-sm btn-brand" href="https://youtube.com/@exclusivebulletin387?si=ugq1ujT777dVYoGX" target="_blank" rel="noopener">Watch</a>
+                </li>
             </ul>
         </div>
     </div>
 </nav>
 
-
-<!-- Breaking news bar -->
-<div class="breaking-news">
+<div class="breaking-news" aria-label="Breaking news">
     <div class="container news-scroll">
         <span class="breaking-label">BREAKING</span>
         <div class="news-items">
@@ -198,25 +74,39 @@
     </div>
 </div>
 
+<main id="main-content">
+    {% block content %}{% endblock %}
+</main>
 
-{% block content %}{% endblock %}
-
-
-<!-- Footer -->
-<footer class="mt-5">
-    <div class="container text-center">
-        <p>© 2025 Exclusive Bulletin News Network. All Rights Reserved.</p>
-
-        <p>
-            <a href="https://www.facebook.com/share/1FPycMSh4s/" target="_blank">Facebook</a> |
-            <a href="https://x.com/vbnvikass" target="_blank">Twitter (X)</a> |
-            <a href="https://youtube.com/@exclusivebulletin387?si=ugq1ujT777dVYoGX" target="_blank">YouTube</a>
-        </p>
-        <p>Contact us : 9897610825</p>
+<footer class="site-footer mt-5">
+    <div class="container">
+        <div class="row g-4 align-items-start">
+            <div class="col-md-6">
+                <div class="footer-brand">Exclusive Bulletin</div>
+                <p class="mb-0">Fast, accurate, public-interest news updates.</p>
+            </div>
+            <div class="col-md-3">
+                <h2 class="footer-title">Follow</h2>
+                <p class="footer-links">
+                    <a href="https://www.facebook.com/share/1FPycMSh4s/" target="_blank" rel="noopener">Facebook</a>
+                    <a href="https://x.com/vbnvikass" target="_blank" rel="noopener">X</a>
+                    <a href="https://youtube.com/@exclusivebulletin387?si=ugq1ujT777dVYoGX" target="_blank" rel="noopener">YouTube</a>
+                </p>
+            </div>
+            <div class="col-md-3">
+                <h2 class="footer-title">Indexing</h2>
+                <p class="footer-links">
+                    <a href="/sitemap.xml">Sitemap</a>
+                    <a href="/news-sitemap.xml">News sitemap</a>
+                    <a href="/robots.txt">Robots</a>
+                </p>
+            </div>
+        </div>
+        <div class="footer-bottom">Copyright 2026 Exclusive Bulletin News Network. All rights reserved.</div>
     </div>
 </footer>
 
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+{% block js %}{% endblock %}
 </body>
 </html>

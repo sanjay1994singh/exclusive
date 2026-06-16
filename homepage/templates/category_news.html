@@ -1,46 +1,55 @@
 {% extends 'base.html' %}
 
-
-{% block title %}
-{{category_name}} - Exclusive Bulletin
-{% endblock title %}
-
-
-{% block css %}
-{% endblock css %}
+{% block title %}{{ category_name }} News | Exclusive Bulletin{% endblock title %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+{% block canonical %}{{ canonical_url }}{% endblock %}
+{% block og_title %}{{ category_name }} News | Exclusive Bulletin{% endblock %}
+{% block og_description %}{{ meta_description }}{% endblock %}
+{% block og_url %}{{ canonical_url }}{% endblock %}
 
 {% block content %}
-<section class="container mt-5">
-    <h3 class="section-title mb-4">{{ category_name }}</h3>
-    <div class="row">
-        {% for news_item in news %}
-        <a href="/news-detail/{{news_item.id}}/" style="color: inherit; text-decoration: none;">
-            <div class="col-md-4 mb-4">
-                <div class="card news-card h-100">
-                    {% if news_item.featured_image %}
-                    <img src="{{ news_item.featured_image.url }}" class="card-img-top" alt="{{ news_item.title }}">
-                    {% else %}
-                    <img src="https://placehold.co/600x400?text=No+News+Image" class="card-img-top" alt="Demo News">
-                    {% endif %}
-
-                    <div class="card-body">
-                        <h5 class="card-title"><strong>{{ news_item.title }}</strong></h5>
-                        <p class="card-text">{{ news_item.text|truncatewords:20 }}</p>
-                    </div>
-                </div>
-            </div>
-        </a>
-        {% endfor %}
+<section class="hero-news">
+    <div class="container">
+        <span class="hero-kicker"><i class="bi bi-folder2-open"></i> Category</span>
+        <h1>{{ category_name }}</h1>
+        <p>{{ meta_description }}</p>
     </div>
-    <hr>
 </section>
 
+<section class="container my-5">
+    <div class="section-heading">
+        <div>
+            <div class="section-eyebrow">Latest</div>
+            <h2>{{ category_name }} News</h2>
+        </div>
+    </div>
+    <div class="news-grid">
+        {% for news_item in news %}
+        <a href="/news-detail/{{ news_item.id }}/" class="text-decoration-none">
+            <article class="news-card">
+                <div class="news-card__image">
+                    {% if news_item.featured_image %}
+                    <img src="{{ news_item.featured_image.url }}" alt="{{ news_item.title }}" loading="lazy">
+                    {% else %}
+                    <img src="https://placehold.co/600x400?text=News" alt="Exclusive Bulletin news" loading="lazy">
+                    {% endif %}
+                </div>
+                <div class="news-card__body">
+                    <span class="badge-topic mb-2">{{ category_name }}</span>
+                    <h3>{{ news_item.title }}</h3>
+                    <p>{{ news_item.text|striptags|truncatewords:20 }}</p>
+                    <div class="meta-line">
+                        <span>{{ news_item.created_at|date:"j M Y" }}</span>
+                        <span>{{ news_item.count }} views</span>
+                    </div>
+                </div>
+            </article>
+        </a>
+        {% empty %}
+        <div class="article-shell p-4">
+            <p class="mb-0">No news is published in this category yet.</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
 {% endblock content %}
-
-{% block js %}
-{% endblock js %}
-
-
-
-
-
