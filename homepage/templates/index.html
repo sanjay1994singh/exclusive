@@ -36,7 +36,7 @@
                 {% if featured_news.featured_image %}
                 <img src="{{ featured_news.featured_image.url }}" alt="{{ featured_news.title }}" loading="eager">
                 {% else %}
-                <img src="https://placehold.co/900x600?text=Exclusive+Bulletin" alt="Exclusive Bulletin top story" loading="eager">
+                <img src="/static/images/logo.jpeg" alt="Exclusive Bulletin top story" loading="eager">
                 {% endif %}
             </div>
         </article>
@@ -59,7 +59,7 @@
                     {% if news_item.featured_image %}
                     <img src="{{ news_item.featured_image.url }}" alt="{{ news_item.title }}" loading="lazy">
                     {% else %}
-                    <img src="https://placehold.co/600x400?text=News" alt="Exclusive Bulletin news" loading="lazy">
+                    <img src="/static/images/logo.jpeg" alt="Exclusive Bulletin news" loading="lazy">
                     {% endif %}
                 </div>
                 <div class="news-card__body">
@@ -95,7 +95,7 @@
                     {% if news_item.featured_image %}
                     <img src="{{ news_item.featured_image.url }}" alt="{{ news_item.title }}" loading="lazy">
                     {% else %}
-                    <img src="https://placehold.co/600x400?text=News" alt="Exclusive Bulletin news" loading="lazy">
+                    <img src="/static/images/logo.jpeg" alt="Exclusive Bulletin news" loading="lazy">
                     {% endif %}
                 </div>
                 <div class="news-card__body">

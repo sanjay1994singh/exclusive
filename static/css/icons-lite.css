@@ -1,0 +1,33 @@
+.bi {
+    display: inline-block;
+    height: .9em;
+    margin-right: .25rem;
+    position: relative;
+    top: .08em;
+    width: .9em;
+}
+
+.bi::before {
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    content: "";
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.bi-lightning-charge-fill::before {
+    border-radius: 2px;
+    clip-path: polygon(55% 0, 15% 55%, 48% 55%, 35% 100%, 85% 40%, 55% 40%);
+    background: currentColor;
+}
+
+.bi-folder2-open::before {
+    border-radius: 2px;
+}
+
+.bi-whatsapp::before,
+.bi-facebook::before,
+.bi-twitter-x::before {
+    border-radius: 50%;
+}
