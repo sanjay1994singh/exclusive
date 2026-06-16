@@ -484,33 +484,73 @@ a {
 
 .ad-slot {
     align-items: center;
-    background: repeating-linear-gradient(135deg, rgba(193, 18, 31, .08), rgba(193, 18, 31, .08) 10px, rgba(11, 114, 133, .08) 10px, rgba(11, 114, 133, .08) 20px), #fff;
-    border: 1px dashed rgba(193, 18, 31, .45);
+    background:
+        radial-gradient(circle at 12% 20%, rgba(255, 255, 255, .2), transparent 28%),
+        linear-gradient(135deg, #0b7285 0%, #111318 42%, #c1121f 100%);
+    border: 1px solid rgba(255, 255, 255, .16);
     border-radius: 8px;
-    color: var(--ink);
+    box-shadow: 0 16px 36px rgba(17, 24, 39, .16);
+    color: #fff;
     display: flex;
-    flex-direction: column;
-    gap: .25rem;
-    justify-content: center;
+    gap: 1rem;
+    justify-content: space-between;
     min-height: 92px;
-    padding: 1rem;
-    text-align: center;
+    overflow: hidden;
+    padding: 1rem 1.1rem;
+    position: relative;
+    text-align: left;
 }
 
 .ad-slot--box {
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
     min-height: 250px;
 }
 
+.ad-slot__badge {
+    background: rgba(255, 255, 255, .16);
+    border: 1px solid rgba(255, 255, 255, .24);
+    border-radius: 999px;
+    flex: 0 0 auto;
+    font-size: .68rem;
+    font-weight: 800;
+    padding: .34rem .6rem;
+}
+
+.ad-slot__creative {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: .15rem;
+    min-width: 0;
+}
+
 .ad-slot__label {
-    color: var(--brand);
+    color: rgba(255, 255, 255, .78);
     font-size: .75rem;
     font-weight: 800;
     text-transform: uppercase;
 }
 
-.ad-slot span:last-child {
-    color: var(--muted);
+.ad-slot strong {
+    font-size: clamp(1rem, 2vw, 1.35rem);
+    line-height: 1.15;
+}
+
+.ad-slot__creative span:last-child {
+    color: rgba(255, 255, 255, .82);
     font-size: .9rem;
+}
+
+.ad-slot__cta {
+    background: #fff;
+    border-radius: 999px;
+    color: var(--brand-dark);
+    flex: 0 0 auto;
+    font-size: .82rem;
+    font-weight: 800;
+    padding: .45rem .8rem;
 }
 
 .base-ad-wrap {
@@ -659,6 +699,11 @@ a {
     }
 
     .category-block__head {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .ad-slot {
         align-items: flex-start;
         flex-direction: column;
     }

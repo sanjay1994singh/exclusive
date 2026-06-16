@@ -1,5 +1,9 @@
 <aside class="ad-slot ad-slot--{{ size|default:'wide' }}" aria-label="Advertisement">
-    <span class="ad-slot__label">Google Ads Demo</span>
-    <strong>{{ title|default:'Sponsored Update' }}</strong>
-    <span>{{ text|default:'Your advertisement can appear here after AdSense approval.' }}</span>
+    <div class="ad-slot__badge">ADVERTISEMENT</div>
+    <div class="ad-slot__creative">
+        <span class="ad-slot__label">Demo Google Ad</span>
+        <strong>{{ title|default:'Advertise Your Brand Here' }}</strong>
+        <span>{{ text|default:'Temporary ad preview. Replace this with AdSense code after approval.' }}</span>
+    </div>
+    <span class="ad-slot__cta">Learn More</span>
 </aside>
