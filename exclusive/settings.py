@@ -15,6 +15,7 @@ SECRET_KEY = 'django-insecure-n9t%_3-!%on6nd#uy28r&wa$%w&zt#)ah9%0&+=@j36se-7jik
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+SITE_URL = os.environ.get('SITE_URL', '').rstrip('/')
 
 
 # Application definition

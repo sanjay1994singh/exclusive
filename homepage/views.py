@@ -1,7 +1,10 @@
 import json
+import mimetypes
 from datetime import timedelta
+from urllib.parse import urljoin
 from xml.sax.saxutils import escape
 
+from django.conf import settings
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import F
 from django.http import HttpResponse, JsonResponse
@@ -23,13 +26,37 @@ LATEST_PAGE_SIZE = 4
 
 
 def absolute_url(request, path):
+    if str(path).startswith(('http://', 'https://')):
+        return path
+    site_url = getattr(settings, 'SITE_URL', '').strip().rstrip('/')
+    if site_url:
+        return urljoin(f'{site_url}/', str(path).lstrip('/'))
     return request.build_absolute_uri(path)
 
 
 def image_url(request, news):
     if news.featured_image:
-        return request.build_absolute_uri(news.featured_image.url)
-    return request.build_absolute_uri('/static/images/logo.jpeg')
+        return absolute_url(request, news.featured_image.url)
+    return absolute_url(request, '/static/images/logo.jpeg')
+
+
+def image_meta(news):
+    if not news.featured_image:
+        return {
+            'width': 1200,
+            'height': 630,
+            'type': 'image/jpeg',
+        }
+
+    image_type = mimetypes.guess_type(news.featured_image.name)[0] or 'image/jpeg'
+    meta = {'type': image_type}
+    try:
+        meta['width'] = news.featured_image.width
+        meta['height'] = news.featured_image.height
+    except Exception:
+        meta['width'] = 1200
+        meta['height'] = 630
+    return meta
 
 
 def clean_description(text, words=32):
@@ -172,6 +199,7 @@ def news_detail(request, id):
     News.objects.filter(id=news.id).update(count=F('count') + 1)
     news.count += 1
     absolute_image_url = image_url(request, news)
+    social_image_meta = image_meta(news)
     category = Category.objects.only('id', 'name').order_by('-id')
     canonical_url = absolute_url(request, reverse('news_detail', args=[news.id]))
     article_schema = {
@@ -203,6 +231,7 @@ def news_detail(request, id):
     context = {
         'news': news,
         'absolute_image_url': absolute_image_url,
+        'social_image_meta': social_image_meta,
         'category': category,
         'canonical_url': canonical_url,
         'meta_description': clean_description(news.text),

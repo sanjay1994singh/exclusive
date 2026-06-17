@@ -21,6 +21,7 @@
     <meta name="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.jpeg' %}{% endblock %}">
     <link rel="alternate" type="application/rss+xml" title="Exclusive Bulletin RSS" href="{% url 'rss_feed' %}">
     {% endblock metatags %}
+    {% block extra_metatags %}{% endblock extra_metatags %}
     <link rel="icon" type="image/x-icon" href="{% static 'images/logo.jpeg' %}">
     <link href="{% static 'css/bootstrap-lite.css' %}" rel="stylesheet">
     <link href="{% static 'css/icons-lite.css' %}" rel="stylesheet">

@@ -1,13 +1,22 @@
 {% extends 'base.html' %}
 
 {% block title %}{{ news.title }} | Exclusive Bulletin{% endblock title %}
+
 {% block metatags %}
 <meta name="description" content="{{ meta_description }}">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="{{ canonical_url }}">
+<link rel="image_src" href="{{ absolute_image_url }}">
 <meta property="og:site_name" content="Exclusive Bulletin">
 <meta property="og:type" content="article">
 <meta property="og:title" content="{{ news.title }}">
 <meta property="og:description" content="{{ meta_description }}">
 <meta property="og:image" content="{{ absolute_image_url }}">
+<meta property="og:image:secure_url" content="{{ absolute_image_url }}">
+<meta property="og:image:alt" content="{{ news.title }}">
+<meta property="og:image:type" content="{{ social_image_meta.type }}">
+<meta property="og:image:width" content="{{ social_image_meta.width }}">
+<meta property="og:image:height" content="{{ social_image_meta.height }}">
 <meta property="og:url" content="{{ canonical_url }}">
 <meta property="article:published_time" content="{{ news.created_at|date:'c' }}">
 <meta property="article:modified_time" content="{{ news.updated_at|date:'c' }}">
@@ -18,6 +27,7 @@
 <meta name="twitter:title" content="{{ news.title }}">
 <meta name="twitter:description" content="{{ meta_description }}">
 <meta name="twitter:image" content="{{ absolute_image_url }}">
+<meta name="twitter:image:alt" content="{{ news.title }}">
 <meta property="article:author" content="{{ news.reporter }}">
 <script type="application/ld+json">{{ article_schema|safe }}</script>
 {% endblock metatags %}

@@ -6,9 +6,9 @@
 {% block og_title %}Exclusive Bulletin | Latest Breaking News{% endblock %}
 {% block og_description %}Fast, accurate, public-interest news updates from Exclusive Bulletin.{% endblock %}
 {% block og_url %}{{ canonical_url }}{% endblock %}
-{% block metatags %}
+{% block extra_metatags %}
 <script type="application/ld+json">{{ home_schema|safe }}</script>
-{% endblock metatags %}
+{% endblock extra_metatags %}
 
 {% block content %}
 <section class="hero-news hero-news--editorial">
