@@ -1,16 +1,24 @@
 {% extends 'base.html' %}
 
 {% block title %}{{ news.title }} | Exclusive Bulletin{% endblock title %}
-
 {% block metatags %}
-<meta name="keywords" content="{{ article_keywords }}">
+<meta name="description" content="{{ meta_description }}">
+<meta property="og:site_name" content="Exclusive Bulletin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="{{ news.title }}">
+<meta property="og:description" content="{{ meta_description }}">
+<meta property="og:image" content="{{ absolute_image_url }}">
+<meta property="og:url" content="{{ canonical_url }}">
 <meta property="article:published_time" content="{{ news.created_at|date:'c' }}">
 <meta property="article:modified_time" content="{{ news.updated_at|date:'c' }}">
-{% if news.category %}<meta property="article:section" content="{{ news.category }}">{% endif %}
+{% if news.category %}<meta property="article:section" content="{{ news.category.name }}">{% endif %}
+{% if news.tags %}<meta name="keywords" content="{{ news.tags }}">{% endif %}
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ news.title }}">
+<meta name="twitter:description" content="{{ meta_description }}">
+<meta name="twitter:image" content="{{ absolute_image_url }}">
 <meta property="article:author" content="{{ news.reporter }}">
-<meta property="og:image:secure_url" content="{{ absolute_image_url }}">
-<meta property="og:image:alt" content="{{ news.title }}">
-<meta name="twitter:url" content="{{ canonical_url }}">
 <script type="application/ld+json">{{ article_schema|safe }}</script>
 {% endblock metatags %}
 
