@@ -20,7 +20,7 @@
 </section>
 
 <section class="container news-shell">
-    {% include 'partials/ad_slot.html' with title='Top Banner Demo Ad' text='Leaderboard ad space for homepage campaigns.' %}
+<!--    {% include 'partials/ad_slot.html' with title='Top Banner Demo Ad' text='Leaderboard ad space for homepage campaigns.' %}-->
 
     {% if featured_news %}
     <div class="front-grid">
@@ -45,7 +45,7 @@
             </article>
         </a>
         <div class="front-sidebar">
-<!--            {% include 'partials/ad_slot.html' with size='box' title='Square Demo Ad' text='Sidebar ad placement.' %}-->
+            {% include 'partials/ad_slot.html' with size='box' title='Square Demo Ad' text='Sidebar ad placement.' %}
             <div class="mini-headlines">
                 <div class="section-eyebrow">Fresh Updates</div>
                 {% for news_item in news|slice:"1:5" %}
