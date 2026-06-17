@@ -1,16 +1,6 @@
 {% extends 'base.html' %}
 
 {% block title %}{{ news.title }} | Exclusive Bulletin{% endblock title %}
-{% block meta_description %}{{ meta_description }}{% endblock %}
-{% block canonical %}{{ canonical_url }}{% endblock %}
-{% block og_type %}article{% endblock %}
-{% block og_title %}{{ news.title }}{% endblock %}
-{% block og_description %}{{ meta_description }}{% endblock %}
-{% block og_url %}{{ canonical_url }}{% endblock %}
-{% block og_image %}{{ absolute_image_url }}{% endblock %}
-{% block twitter_title %}{{ news.title }}{% endblock %}
-{% block twitter_description %}{{ meta_description }}{% endblock %}
-{% block twitter_image %}{{ absolute_image_url }}{% endblock %}
 
 {% block metatags %}
 <meta name="keywords" content="{{ article_keywords }}">
