@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>{% block title %}Exclusive Bulletin | Latest Breaking News{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% block metatags %}
     <meta name="description" content="{% block meta_description %}Exclusive Bulletin brings fast, verified breaking news, local updates, politics, sports, entertainment, and public-interest reporting.{% endblock %}">
     <meta name="robots" content="{% block robots %}index, follow, max-image-preview:large{% endblock %}">
     <link rel="canonical" href="{% block canonical %}{{ request.build_absolute_uri }}{% endblock %}">
@@ -19,7 +20,7 @@
     <meta name="twitter:description" content="{% block twitter_description %}Fast, verified news updates from Exclusive Bulletin.{% endblock %}">
     <meta name="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.jpeg' %}{% endblock %}">
     <link rel="alternate" type="application/rss+xml" title="Exclusive Bulletin RSS" href="{% url 'rss_feed' %}">
-    {% block metatags %}{% endblock metatags %}
+    {% endblock metatags %}
     <link rel="icon" type="image/x-icon" href="{% static 'images/logo.jpeg' %}">
     <link href="{% static 'css/bootstrap-lite.css' %}" rel="stylesheet">
     <link href="{% static 'css/icons-lite.css' %}" rel="stylesheet">
