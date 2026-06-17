@@ -1,5 +1,6 @@
 import json
-import mimetypes
+import os
+from io import BytesIO
 from datetime import timedelta
 from urllib.parse import urljoin
 from xml.sax.saxutils import escape
@@ -23,6 +24,7 @@ PUBLICATION_NAME = 'Exclusive Bulletin'
 PUBLICATION_LANGUAGE = 'en'
 CATEGORY_PAGE_SIZE = 4
 LATEST_PAGE_SIZE = 4
+SOCIAL_IMAGE_SIZE = (1200, 630)
 
 
 def absolute_url(request, path):
@@ -40,23 +42,50 @@ def image_url(request, news):
     return absolute_url(request, '/static/images/logo.jpeg')
 
 
-def image_meta(news):
-    if not news.featured_image:
-        return {
-            'width': 1200,
-            'height': 630,
-            'type': 'image/jpeg',
-        }
+def social_image_url(request, news):
+    return absolute_url(request, reverse('news_social_image', args=[news.id]))
 
-    image_type = mimetypes.guess_type(news.featured_image.name)[0] or 'image/jpeg'
-    meta = {'type': image_type}
+
+def image_meta(news):
+    return {
+        'width': SOCIAL_IMAGE_SIZE[0],
+        'height': SOCIAL_IMAGE_SIZE[1],
+        'type': 'image/jpeg',
+    }
+
+
+def render_social_image(news):
     try:
-        meta['width'] = news.featured_image.width
-        meta['height'] = news.featured_image.height
+        from PIL import Image, ImageFilter, ImageOps
     except Exception:
-        meta['width'] = 1200
-        meta['height'] = 630
-    return meta
+        return None
+
+    source_path = news.featured_image.path if news.featured_image else os.path.join(settings.BASE_DIR, 'static', 'images', 'logo.jpeg')
+    if not os.path.exists(source_path):
+        source_path = os.path.join(settings.BASE_DIR, 'static', 'images', 'logo.jpeg')
+
+    with Image.open(source_path) as image:
+        image = image.convert('RGB')
+        background = ImageOps.fit(image, SOCIAL_IMAGE_SIZE, method=Image.Resampling.LANCZOS)
+        background = background.filter(ImageFilter.GaussianBlur(18))
+        foreground = ImageOps.contain(image, SOCIAL_IMAGE_SIZE, method=Image.Resampling.LANCZOS)
+        x = (SOCIAL_IMAGE_SIZE[0] - foreground.width) // 2
+        y = (SOCIAL_IMAGE_SIZE[1] - foreground.height) // 2
+        background.paste(foreground, (x, y))
+
+        buffer = BytesIO()
+        background.save(buffer, 'JPEG', quality=86, optimize=True, progressive=True)
+        return buffer.getvalue()
+
+
+def news_social_image(request, id):
+    news = get_object_or_404(News.objects.only('id', 'featured_image'), id=id)
+    image_bytes = render_social_image(news)
+    if image_bytes is None:
+        return HttpResponse(status=404)
+    response = HttpResponse(image_bytes, content_type='image/jpeg')
+    response['Cache-Control'] = 'public, max-age=86400'
+    return response
 
 
 def clean_description(text, words=32):
@@ -198,7 +227,7 @@ def news_detail(request, id):
     )
     News.objects.filter(id=news.id).update(count=F('count') + 1)
     news.count += 1
-    absolute_image_url = image_url(request, news)
+    absolute_image_url = social_image_url(request, news)
     social_image_meta = image_meta(news)
     category = Category.objects.only('id', 'name').order_by('-id')
     canonical_url = absolute_url(request, reverse('news_detail', args=[news.id]))
